@@ -18,5 +18,12 @@ module.exports = {
       url: process.env.MUMBAI_RPC,
       accounts: [`0x${process.env.PRIVATE_KEY}`]
     }
+  },
+  paths: {
+    sources: "contracts",
+    artifacts: "build/contracts"
+  },
+  getConfig: function() {
+    return this;
   }
 };

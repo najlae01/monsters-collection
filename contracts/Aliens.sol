@@ -7,7 +7,6 @@ contract Aliens {
     string public symbol;
 
     mapping(uint256 => address) public ownerOf;
-    mapping(uint256 => string) public tokenURI;
     mapping(uint256 => string) public tokenName;
     mapping(uint256 => string) public tokenDescription;
     mapping(uint256 => string) public tokenImage;
@@ -24,24 +23,23 @@ contract Aliens {
     }
 
     function mint(
-        string memory _tokenURI,
         string memory _tokenName,
         string memory _tokenDescription,
         string memory _tokenImage,
         uint256 _tokenPrice
-    ) public {
+    ) public returns (uint256) {
         require(
             msg.sender == msg.sender,
             "Only msg.sender can mint new tokens."
         );
         totalSupply++;
         ownerOf[totalSupply] = msg.sender;
-        tokenURI[totalSupply] = _tokenURI;
         tokenName[totalSupply] = _tokenName;
         tokenDescription[totalSupply] = _tokenDescription;
         tokenImage[totalSupply] = _tokenImage;
         tokenPrice[totalSupply] = _tokenPrice;
         emit Mint(msg.sender, totalSupply);
+        return totalSupply;
     }
 
     function transfer(address _to, uint256 _tokenId) public {
@@ -57,14 +55,6 @@ contract Aliens {
 
     function supportsInterface(bytes4 interfaceId) public pure returns (bool) {
         return interfaceId == 0x80ac58cd || interfaceId == 0x5b5e139f;
-    }
-
-    function tokenIdToUri(uint256 _tokenId)
-        public
-        view
-        returns (string memory)
-    {
-        return tokenURI[_tokenId];
     }
 
     function tokenIdToDescription(uint256 _tokenId)
